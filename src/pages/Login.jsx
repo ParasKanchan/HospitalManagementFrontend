@@ -6,6 +6,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { login } = useAuth();
@@ -14,11 +15,15 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
     setLoading(true);
 
     try {
       await login(email, password);
-      navigate("/dashboard");
+      setSuccess("Login successful! Redirecting...");
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1500);
     } catch (err) {
       setError(err.response?.data?.message || "Login failed. Please try again.");
     } finally {
@@ -39,6 +44,12 @@ const Login = () => {
         {error && (
           <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
             {error}
+          </div>
+        )}
+
+        {success && (
+          <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+            {success}
           </div>
         )}
 

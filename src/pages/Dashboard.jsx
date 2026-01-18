@@ -10,7 +10,7 @@ const Dashboard = () => {
       <h2 className="text-3xl font-bold mb-2">Dashboard</h2>
       {user && (
         <p className="text-gray-600 mb-6">
-          Welcome back, Dr. {user.name}! 👨‍⚕️
+          Welcome back, {user.role === "doctor" ? "Dr. " : ""}{user.name}! {user.role === "doctor" ? "👨‍⚕️" : "👤"}
         </p>
       )}
 

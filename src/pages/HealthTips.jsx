@@ -6,6 +6,7 @@ import Loader from "../components/Loader";
 const HealthTips = () => {
   const { user } = useAuth();
   const [blogs, setBlogs] = useState([]);
+  const [randomTip, setRandomTip] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
@@ -18,6 +19,7 @@ const HealthTips = () => {
 
   useEffect(() => {
     fetchBlogs();
+    loadOrFetchRandomTip();
   }, []);
 
   const fetchBlogs = async () => {
@@ -30,6 +32,28 @@ const HealthTips = () => {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadOrFetchRandomTip = async () => {
+    const storedTip = localStorage.getItem("dailyHealthTip");
+    const storedTimestamp = localStorage.getItem("dailyHealthTipTimestamp");
+    const now = Date.now();
+
+    // If no stored tip or 24 hours have passed (86400000 ms)
+    if (!storedTip || !storedTimestamp || now - parseInt(storedTimestamp) > 86400000) {
+      try {
+        const response = await blogAPI.getRandomTip();
+        const tip = response.data.tip;
+        setRandomTip(tip);
+        localStorage.setItem("dailyHealthTip", JSON.stringify(tip));
+        localStorage.setItem("dailyHealthTipTimestamp", now.toString());
+      } catch (err) {
+        console.error("Failed to load random tip:", err);
+      }
+    } else {
+      // Use cached tip
+      setRandomTip(JSON.parse(storedTip));
     }
   };
 
@@ -74,6 +98,16 @@ const HealthTips = () => {
       {error && (
         <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
           {error}
+        </div>
+      )}
+
+      {/* Daily Random Health Tip */}
+      {randomTip && (
+        <div className="mb-6 bg-gradient-to-r from-blue-50 to-green-50 border-2 border-blue-300 p-6 rounded-lg">
+          <h3 className="text-lg font-semibold text-blue-900 mb-2">💡 Daily Health Tip</h3>
+          <h4 className="text-xl font-bold text-blue-800 mb-2">{randomTip.title}</h4>
+          <p className="text-gray-700 mb-3">{randomTip.content}</p>
+          <p className="text-xs text-gray-500">This tip updates daily</p>
         </div>
       )}
 
@@ -147,46 +181,35 @@ const HealthTips = () => {
       )}
 
       <div className="space-y-6">
-        {blogs.length === 0 ? (
-          <div className="bg-blue-50 p-8 rounded-lg text-center">
-            <p className="text-gray-600 mb-2">No health tips available yet.</p>
-            {user?.role === "doctor" && (
-              <p className="text-sm text-gray-500">
-                Be the first to share health tips with the community!
-              </p>
-            )}
-          </div>
-        ) : (
-          blogs.map((blog) => (
-            <div key={blog._id} className="bg-white shadow rounded p-6 hover:shadow-lg transition-shadow">
-              <div className="flex justify-between items-start">
-                <div className="flex-grow">
-                  <h3 className="text-xl font-semibold mb-2 text-gray-800">
-                    {blog.title}
-                  </h3>
-                  <p className="text-gray-700 mb-4">{blog.content}</p>
-                  <div className="flex items-center justify-between text-sm text-gray-500">
-                    <div>
-                      {blog.category && (
-                        <span className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full mr-3">
-                          {blog.category}
-                        </span>
-                      )}
-                      <span>
-                        {new Date(blog.createdAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                    {blog.author && (
-                      <span className="font-medium">
-                        By Dr. {blog.author.fullName || "Health Expert"}
+        {blogs.map((blog) => (
+          <div key={blog._id} className="bg-white shadow rounded p-6 hover:shadow-lg transition-shadow">
+            <div className="flex justify-between items-start">
+              <div className="flex-grow">
+                <h3 className="text-xl font-semibold mb-2 text-gray-800">
+                  {blog.title}
+                </h3>
+                <p className="text-gray-700 mb-4">{blog.content}</p>
+                <div className="flex items-center justify-between text-sm text-gray-500">
+                  <div>
+                    {blog.category && (
+                      <span className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full mr-3">
+                        {blog.category}
                       </span>
                     )}
+                    <span>
+                      {new Date(blog.createdAt).toLocaleDateString()}
+                    </span>
                   </div>
+                  {blog.author && (
+                    <span className="font-medium">
+                      By Dr. {blog.author.fullName || "Health Expert"}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
-          ))
-        )}
+          </div>
+        ))}
       </div>
     </div>
   );

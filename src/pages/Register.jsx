@@ -9,6 +9,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState("patient"); // patient or doctor
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { register } = useAuth();
@@ -17,6 +18,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
@@ -27,7 +29,10 @@ const Register = () => {
 
     try {
       await register(email, password, name, role);
-      navigate("/dashboard");
+      setSuccess("Registration successful! Redirecting to login...");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed. Please try again.");
     } finally {
@@ -48,6 +53,12 @@ const Register = () => {
         {error && (
           <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
             {error}
+          </div>
+        )}
+
+        {success && (
+          <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+            {success}
           </div>
         )}
 

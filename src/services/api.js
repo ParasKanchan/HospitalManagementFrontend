@@ -15,6 +15,18 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+  
+  // Prevent logging of sensitive data
+  if (config.data && typeof config.data === 'object') {
+    const sanitizedData = { ...config.data };
+    if (sanitizedData.password) {
+      sanitizedData.password = '***REDACTED***';
+    }
+    if (sanitizedData.confirmPassword) {
+      sanitizedData.confirmPassword = '***REDACTED***';
+    }
+  }
+  
   return config;
 });
 
@@ -60,6 +72,7 @@ export const healthRecordAPI = {
 export const blogAPI = {
   getAll: () => api.get("/blogs"),
   create: (data) => api.post("/blogs", data),
+  getRandomTip: () => api.get("/blogs/random-tip"),
 };
 
 // Query APIs
