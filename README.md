@@ -1,70 +1,211 @@
-# Getting Started with Create React App
+## 👥 Team Members
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+| Name | GitHub Profile |
+|-----|---------------|
+| **Anand Goyal** | 🔗 [AnandGoyal264](https://github.com/AnandGoyal264/HealthCare-HCL-) |
+| **Preethi Pattlola** | 🔗 [preethi1210](https://github.com/preethi1210) |
+| **Paras Kanchan** | 🔗 [ParasKanchan](https://github.com/ParasKanchan) |
 
-## Available Scripts
+> 🚀 This project is collaboratively built with a focus on clean architecture, scalability, and real-world healthcare use cases.
 
-In the project directory, you can run:
+usecaseDiagram
+Healthcare Wellness & Preventive Care Portal
 
-### `npm start`
+actor Patient
+actor "Healthcare Provider" as Provider
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![WhatsApp Image 2026-01-18 at 5 50 22 PM](https://github.com/user-attachments/assets/a08ec3e7-2876-4f09-a090-b07cce0b1b1a)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+"Healthcare Wellness Portal" {
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  Patient --> (Register)
+  Patient --> (Login)
+  Patient --> (View Dashboard)
+  Patient --> (Manage Profile)
+  Patient --> (Set Wellness Goals)
+  Patient --> (Log Daily Activities)
+  Patient --> (View Preventive Reminders)
+  Patient --> (View Public Health Information)
+  Patient --> (Logout)
 
-### `npm run build`
+  Provider --> (Login)
+  Provider --> (View Assigned Patients)
+  Provider --> (View Patient Goals)
+  Provider --> (Track Compliance Status)
+  Provider --> (Review Preventive Checkups)
+  Provider --> (Logout)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  (Login) <|-- (JWT Authentication)
+  (Manage Profile) <|-- (Update Health Information)
+  (View Dashboard) <|-- (Wellness Progress Overview)
+}
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#  Healthcare Wellness Portal
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+##  Problem Statement
 
-### `npm run eject`
+In today’s fast-paced world, people often struggle to manage their health records, wellness data, and medical appointments in a single place.
+The *Healthcare Wellness Portal* provides a centralized, secure platform to manage health data, book appointments, and track wellness efficiently.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+##  Objectives
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+* Provide a secure healthcare management platform
+* Enable wellness tracking & preventive care
+* Simplify appointment booking
+* Promote health awareness
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+##  Tech Stack
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Frontend
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* React.js
+* Tailwind CSS
+* Axios
 
-### Code Splitting
+### Backend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+* Node.js
+* Express.js
+* JWT Authentication
 
-### Analyzing the Bundle Size
+### Database
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+* MongoDB (MongoDB Atlas)
 
-### Making a Progressive Web App
+### Tools
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+* Git & GitHub
+* Postman
+* VS Code
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+##  System Architecture
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+React Frontend → Axios → Express API → MongoDB
+                     ↓
+               JWT Authentication
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+##  Project Structure
+
+### Backend
+
+
+backend/
+│── config/
+│── controllers/
+│── models/
+│── routes/
+│── middleware/
+│── server.js
+│── .env
+
+
+### Frontend
+
+
+frontend/
+│── src/
+│   ├── components/
+│   ├── pages/
+│   ├── services/
+│   ├── context/
+│   ├── App.jsx
+│── index.css
+
+
+---
+
+##  Key Features
+
+* User Registration & Login (JWT secured)
+* Book & manage appointments
+* Track wellness & health vitals
+* View health tips & blogs
+* Fully responsive UI using Tailwind CSS
+
+---
+
+##  API Endpoints (Sample)
+
+### Authentication
+
+* POST /api/auth/register
+* POST /api/auth/login
+* GET /api/auth/me
+
+### Appointments
+
+* POST /api/appointments
+* GET /api/appointments/my
+
+### Wellness
+
+* POST /api/health
+* GET /api/health/my
+
+---
+
+##  Testing
+
+* APIs tested using *Postman*
+* UI tested manually across devices
+
+
+---
+
+##  How to Run the Project
+
+### Backend
+
+bash
+cd backend
+npm install
+npm run dev
+
+
+### Frontend
+
+bash
+cd frontend
+npm install
+npm start
+
+
+---
+
+
+##  Hackathon Highlights
+
+* Modular MERN architecture
+* Secure authentication using JWT
+* Clean and responsive UI/UX
+* Real-world healthcare use case
+* Team collaboration via GitHub
+
+---
+
+##  Future Enhancements
+
+* Doctor login & dashboard
+* Video consultation
+* Health analytics & charts
+* Notification system
+
+---
+
+
+---
+
+##  Conclusion
+
+The *Healthcare Wellness Portal* demonstrates a scalable, secure, and user-centric healthcare solution built using modern web technologies. It highlights effective team collaboration, clean architecture, and practical implementation of a real
